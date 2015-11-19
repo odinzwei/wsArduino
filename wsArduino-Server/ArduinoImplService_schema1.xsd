@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://service/" xmlns:tns="http://service/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="ArduinoServiceException" type="tns:ArduinoServiceException"/>
+
+  <xs:element name="turnOffLED" type="tns:turnOffLED"/>
+
+  <xs:element name="turnOffLEDResponse" type="tns:turnOffLEDResponse"/>
+
+  <xs:element name="turnOnLED" type="tns:turnOnLED"/>
+
+  <xs:element name="turnOnLEDResponse" type="tns:turnOnLEDResponse"/>
+
+  <xs:complexType name="turnOnLED">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="turnOnLEDResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ArduinoServiceException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="turnOffLED">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="turnOffLEDResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
