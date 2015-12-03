@@ -1,26 +1,24 @@
 package service;
 
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPort;
-import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.Enumeration;
+import java.io.Serializable;
 
-public class ArduinoLED implements SerialPortEventListener {
+import gnu.io.SerialPort;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
+import util.Util;
 
+public class ArduinoLED implements SerialPortEventListener, AutoCloseable, Serializable {
+
+	private static final long serialVersionUID = -8244063490109525785L;
+	
 	private static final int TIME_OUT = 2000;
 	private static final int DATA_RATE = 9600;
-	private static final String PORT_NAMES[] = { "/dev/tty.usbserial-A9007UX1", // Mac
-												"/dev/ttyUSB0", // Linux
-												"COM11", // Windows
-											};
 	
-	private static BufferedReader input;
-	private static OutputStream output;
+	private BufferedReader input;
+	private OutputStream output;
 	private SerialPort serialPort;
 	
 	private static ArduinoLED instance;
@@ -32,7 +30,7 @@ public class ArduinoLED implements SerialPortEventListener {
 	private ArduinoLED() {}
 
 	private void initialize() throws Exception {
-		serialPort = (SerialPort) getCommPort().open(this.getClass().getName(), TIME_OUT);
+		serialPort = (SerialPort) Util.getCOMMPort().open(this.getClass().getName(), TIME_OUT);
 		serialPort.setSerialPortParams(DATA_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 		input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
 		output = serialPort.getOutputStream();
@@ -40,19 +38,7 @@ public class ArduinoLED implements SerialPortEventListener {
 		serialPort.notifyOnDataAvailable(true);
 	}
 
-	private CommPortIdentifier getCommPort(){
-		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
-		while (portEnum.hasMoreElements()) {
-			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
-			for (String portName : PORT_NAMES) {
-				if (currPortId.getName().equals(portName)) 
-					return currPortId;
-			}
-		}
-		throw new NullPointerException("COM nao identificada");
-	}
-	
-	private synchronized void close() {
+	private synchronized void closeSerialPort() {
 		if (serialPort != null) {
 			serialPort.removeEventListener();
 			serialPort.close();
@@ -65,7 +51,7 @@ public class ArduinoLED implements SerialPortEventListener {
 			try {
 				String inputLine = input.readLine();
 				System.out.println(inputLine);
-				close();
+				closeSerialPort();
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}
@@ -83,5 +69,11 @@ public class ArduinoLED implements SerialPortEventListener {
 	
 	public void turnOff() throws Exception{
 		writeData((byte)0);
+	}
+
+	@Override
+	public void close() throws Exception {
+		instance.closeSerialPort();
+		instance = null;
 	}
 }

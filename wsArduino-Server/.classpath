@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src/main/resources"/>
-	<classpathentry kind="lib" path="/Users/matheuscastro/git/wsArduino/wsArduino-Server/src/main/resources/SERVER-LIB/rxtx-2.1-7-bins-r2/RXTXcomm.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wsArduino-Core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
