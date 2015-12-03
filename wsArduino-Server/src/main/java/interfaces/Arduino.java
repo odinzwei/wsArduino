@@ -2,16 +2,17 @@ package interfaces;
 
 import java.io.Serializable;
 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
 import exceptions.ArduinoServiceException;
 
+@WebService
 public interface Arduino extends Serializable {
-	int PORT = 8080;
-	String PROTOCOL ="http";
-	String HOST = "localhost";
-	String NAME_SERVICE = "arduino";
-	String URL = PROTOCOL + "://" + HOST + ":" + PORT + "/" + NAME_SERVICE;
 
+	@WebMethod
 	boolean turnOnLED() throws ArduinoServiceException;
-
+	
+	@WebMethod
 	boolean turnOffLED() throws ArduinoServiceException;
 }

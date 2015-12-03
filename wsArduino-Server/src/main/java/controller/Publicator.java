@@ -1,14 +1,13 @@
 package controller;
 
-import interfaces.Arduino;
-
 import javax.xml.ws.Endpoint;
 
-import service.ArduinoImpl;
 import exceptions.ArduinoServiceException;
+import service.ArduinoImpl;
 
 public class Publicator {
 	public static void main(String[] args) throws ArduinoServiceException {
-		Endpoint.publish(Arduino.URL, new ArduinoImpl());
+		Endpoint.publish(Constants.URL, new ArduinoImpl());
+		System.out.println(Constants.URL);
 	}
 }

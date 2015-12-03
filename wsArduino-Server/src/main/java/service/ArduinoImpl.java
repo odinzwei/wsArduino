@@ -1,21 +1,17 @@
 package service;
 
-import interfaces.Arduino;
-
-import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import exceptions.ArduinoServiceException;
+import interfaces.Arduino;
 
-@WebService
+@WebService(endpointInterface="interfaces.Arduino")
 public class ArduinoImpl implements Arduino {
 
 	private static final long serialVersionUID = -5684037232300886932L;
 	
 	public ArduinoImpl() {}
 	
-
-	@WebMethod
 	public boolean turnOnLED() throws ArduinoServiceException {
 		try {
 			ArduinoLED.getInstance().turnOn();
@@ -25,7 +21,6 @@ public class ArduinoImpl implements Arduino {
 		}
 	}
 
-	@WebMethod
 	public boolean turnOffLED() throws ArduinoServiceException {
 		try {
 			ArduinoLED.getInstance().turnOff();
